@@ -1,58 +1,94 @@
 "use client";
+
+import Dropdown from "@/app/components/Dropdown";
+import MoonIcon from "@/app/components/icons/MoonIcon";
+import SunIcon from "@/app/components/icons/SunIcon";
+import SystemIcon from "@/app/components/icons/SystemIcon";
 import { useEffect, useState } from "react";
 
-const ThemeToggleComponent: React.FC = () => {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+const themeMenu = [
+  {
+    theme: "Light",
+    icon: <SunIcon />,
+    mode: "light",
+  },
+  {
+    theme: "Dark",
+    icon: <MoonIcon />,
+    mode: "dark",
+  },
+  {
+    theme: "System",
+    icon: <SystemIcon />,
+    mode: "system",
+  },
+];
 
-  // Function to apply the theme class
-  const applyTheme = (theme: "light" | "dark") => {
-    document.documentElement.classList.toggle("dark", theme === "dark");
+const ThemeToggle = () => {
+  const [selected, setSelected] = useState(themeMenu[2]); // Default to "System"
+
+  // Apply the theme
+  const applyTheme = (mode: string) => {
+    const html = document.documentElement;
+
+    if (mode === "light") {
+      html.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    } else if (mode === "dark") {
+      html.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      // System theme
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      if (prefersDark) {
+        html.classList.add("dark");
+      } else {
+        html.classList.remove("dark");
+      }
+      localStorage.setItem("theme", "system");
+    }
   };
 
+  // Change theme handler
+  const changeTheme = (item: (typeof themeMenu)[number]) => {
+    setSelected(item);
+    applyTheme(item.mode);
+  };
+
+  // Load theme on initial render
   useEffect(() => {
-    // Check for saved theme or system preference
-    const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
-    const systemPrefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-
-    const initialTheme = savedTheme || (systemPrefersDark ? "dark" : "light");
-    setTheme(initialTheme);
-    applyTheme(initialTheme);
-
-    // Optional: Listen to system preference changes
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const handleSystemThemeChange = (e: MediaQueryListEvent) => {
-      if (!savedTheme) {
-        const newTheme = e.matches ? "dark" : "light";
-        setTheme(newTheme);
-        applyTheme(newTheme);
-      }
-    };
-
-    mediaQuery.addEventListener("change", handleSystemThemeChange);
-
-    return () =>
-      mediaQuery.removeEventListener("change", handleSystemThemeChange);
+    const storedTheme = localStorage.getItem("theme") || "system";
+    const initialTheme =
+      themeMenu.find((item) => item.mode === storedTheme) || themeMenu[2];
+    setSelected(initialTheme);
+    applyTheme(initialTheme.mode);
   }, []);
 
-  const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-    applyTheme(newTheme);
-  };
-
   return (
-    <div className=" bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg shadow-md">
-      <button
-        onClick={toggleTheme}
-        className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-black dark:text-white rounded"
-      >
-        Switch to {theme === "light" ? "Dark" : "Light"} Mode
-      </button>
-    </div>
+    <Dropdown
+      renderToggle={
+        <div className="h-7 w-7 p-1 flex items-center justify-center text-xl cursor-pointer hover:bg-gray-100 rounded-md dark:hover:bg-gray-600">
+          {selected.icon}
+        </div>
+      }
+      position="bottom-right"
+      className="p-0"
+    >
+      <div className="min-w-max p-2 flex flex-col dark:bg-[#1A1D24] text-gray-600 dark:text-gray-400">
+        {themeMenu.map((item, i) => (
+          <div
+            key={i}
+            className={`flex items-center text-sm gap-3 px-3 py-2 hover:bg-slate-200 dark:hover:bg-gray-600 rounded cursor-pointer dark:hover:text-white`}
+            onClick={() => changeTheme(item)}
+          >
+            <div>{item.theme}</div>
+          </div>
+        ))}
+      </div>
+    </Dropdown>
   );
 };
 
-export default ThemeToggleComponent;
+export default ThemeToggle;
