@@ -25,7 +25,7 @@ const themeMenu = [
 ];
 
 const ThemeToggle = () => {
-  const [selected, setSelected] = useState(themeMenu[2]); // Default to "System"
+  const [selected, setSelected] = useState(themeMenu[1]); // Default to "System"
 
   // Apply the theme
   const applyTheme = (mode: string) => {
