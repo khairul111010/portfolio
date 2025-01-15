@@ -24,11 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${latoSans.variable} antialiased bg-[#F4F2EE] dark:bg-black`}
-      >
-        {children}
-      </body>
+      <body className={`${latoSans.variable} antialiased`}>{children}</body>
     </html>
   );
 }
