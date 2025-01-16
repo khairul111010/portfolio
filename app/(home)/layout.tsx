@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Lato } from "next/font/google";
+import { ReactNode } from "react";
+import { ScrollProvider } from "../lib/context/ScrollContext";
+import { useSmoothScroll } from "../lib/hooks/useSmoothScroll";
 import "./globals.css";
 
 const latoSans = Lato({
@@ -17,6 +20,12 @@ export const metadata: Metadata = {
   },
 };
 
+function RootLayoutContent({ children }: { children: ReactNode }) {
+  useSmoothScroll();
+
+  return children;
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -24,7 +33,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${latoSans.variable} antialiased`}>{children}</body>
+      <body className={`${latoSans.variable} antialiased`}>
+        <ScrollProvider>
+          <RootLayoutContent>{children}</RootLayoutContent>
+        </ScrollProvider>
+      </body>
     </html>
   );
 }
