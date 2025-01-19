@@ -1,6 +1,8 @@
 import LogoIcon from "@/app/assets/icons/LogoIcon";
 import { JetBrains_Mono } from "next/font/google";
 import Link from "next/link";
+import { BiLogoGmail } from "react-icons/bi";
+import { FaXTwitter } from "react-icons/fa6";
 import { ImLinkedin2 } from "react-icons/im";
 const jetBrains = JetBrains_Mono({
   variable: "--font-jetbrains",
@@ -22,18 +24,30 @@ const Footer = () => {
           <div className="relative group">
             <Link
               href={"https://www.linkedin.com/in/imkhairulhasan"}
-              className="absolute h-12 w-12 -top-10 opacity-0 bg-[#0A66C2] p-4 rounded-full group-hover:-top-9 group-hover:opacity-100 transition-all duration-150 ease-in-out"
+              className="absolute h-12 w-12 -top-12 opacity-0 group-hover:opacity-100 group-hover:-top-14 bg-[#0A66C2] p-4 rounded-full transition-all duration-200 ease-in-out flex items-center justify-center"
             >
-              <ImLinkedin2 size={30} />
+              <ImLinkedin2 size={30} className="text-white" />
             </Link>
-            <div>Linkedin</div>
+            <div className="cursor-pointer">Linkedin</div>
           </div>
-          <Link href={"https://www.linkedin.com/in/imkhairulhasan"}>
-            LINKEDIN
-          </Link>
-          <Link href={"https://www.linkedin.com/in/imkhairulhasan"}>
-            LINKEDIN
-          </Link>
+          <div className="relative group">
+            <Link
+              href={"mailto:khairul.hasan.dev@gmail.com"}
+              className="absolute h-12 w-12 -top-12 -left-[10px] opacity-0 group-hover:opacity-100 group-hover:-top-14 bg-[#C03828] p-4 rounded-full transition-all duration-200 ease-in-out flex items-center justify-center"
+            >
+              <BiLogoGmail size={30} className="text-white" />
+            </Link>
+            <div className="cursor-pointer">Gmail</div>
+          </div>
+          <div className="relative group">
+            <Link
+              href={"https://x.com/iamkhairulhasan"}
+              className="absolute h-12 w-12 -top-12 -left-[22px] opacity-0 group-hover:opacity-100 group-hover:-top-14 bg-black p-4 rounded-full transition-all duration-200 ease-in-out flex items-center justify-center"
+            >
+              <FaXTwitter size={30} className="text-white" />
+            </Link>
+            <div className="cursor-pointer">X</div>
+          </div>
         </div>
       </div>
     </footer>
