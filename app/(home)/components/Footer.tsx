@@ -19,7 +19,7 @@ const Footer = () => {
         <div className="w-[300px]">
           © Khairul Hasan {currentYear}. All rights reserved.
         </div>
-        <LogoIcon />
+        <LogoIcon variant="dark" />
         <div className="w-[300px] flex items-center justify-between">
           <div className="relative group">
             <Link
