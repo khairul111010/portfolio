@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   return (
-    <main className="bg-black text-white">
+    <main className="bg-white text-gray-800">
       <Navbar />
       <section className="h-screen flex items-center justify-center">
         <h1 className="text-6xl font-bold">Scroll Down</h1>

@@ -34,8 +34,6 @@ const Footer = () => {
   const [dhakaTime, setDhakaTime] = useState<string>("");
   const [nycTime, setNycTime] = useState<string>("");
 
-  console.log(currentMonth);
-
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
@@ -82,7 +80,8 @@ const Footer = () => {
                 text={`Booking for ${Month[currentMonth]}`}
                 style={{ lineHeight: "15px" }}
                 className="h-[15px]"
-                href="/"
+                target="_blank"
+                href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3ZkUNVV7hOmpvJEvdsTqzvrYTAWbS_-d1k4HqKaLqFln_PSI6XR_GEI9c2-yjuVMx2L85OwQ2x?gv=true"
               />
             </div>
           </div>
