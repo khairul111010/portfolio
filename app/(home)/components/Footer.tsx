@@ -5,15 +5,36 @@ import { useEffect, useState } from "react";
 import { BiLogoGmail } from "react-icons/bi";
 import { FaXTwitter } from "react-icons/fa6";
 import { ImLinkedin2 } from "react-icons/im";
+import ButtonAnimated from "./ButtonAnimated";
+
 const jetBrains = JetBrains_Mono({
   variable: "--font-jetbrains",
   weight: "300",
   subsets: ["latin"],
 });
+
+const Month = [
+  "JAN",
+  "FEB",
+  "MAR",
+  "APR",
+  "MAY",
+  "JUN",
+  "JUL",
+  "AUG",
+  "SEP",
+  "OCT",
+  "NOV",
+  "DEC",
+];
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth();
   const [dhakaTime, setDhakaTime] = useState<string>("");
   const [nycTime, setNycTime] = useState<string>("");
+
+  console.log(currentMonth);
 
   useEffect(() => {
     const updateTime = () => {
@@ -52,10 +73,22 @@ const Footer = () => {
     >
       <div className={`h-[52px] flex items-center justify-between`}>
         <div className="grow shrink-0 basis-0"></div>
-        <div className="grow-0 shrink-0 basis-auto w-[1080px] h-full border-x border-[#303030] flex items-center justify-between">
-          <div className="grow shrink-0 basis-0">Dhaka | {dhakaTime} BST</div>
-          <div className="grow-0 shrink-0 basis-auto w-[450px]">hl</div>
-          <div className="grow shrink-0 basis-0">NYC | {nycTime} EST/EDT</div>
+        <div className="grow-0 shrink-0 basis-auto w-[1080px] h-full border-x border-[#303030] flex items-center justify-between px-4">
+          <div className="grow shrink-0 basis-0 ">Dhaka | {dhakaTime} BST</div>
+          <div className="grow-0 shrink-0 basis-auto w-[450px] border-x h-full border-dashed border-[#303030] flex items-center justify-center">
+            <div className="flex items-center gap-2">
+              <div className="h-[12px] w-[12px] rounded-full bg-[#FF0000]"></div>
+              <ButtonAnimated
+                text={`Booking for ${Month[currentMonth]}`}
+                style={{ lineHeight: "15px" }}
+                className="h-[15px]"
+                href="/"
+              />
+            </div>
+          </div>
+          <div className="grow shrink-0 basis-0 flex items-center justify-end">
+            NYC | {nycTime} EST/EDT
+          </div>
         </div>
         <div className="grow shrink-0 basis-0"></div>
       </div>
