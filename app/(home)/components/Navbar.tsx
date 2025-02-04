@@ -9,7 +9,7 @@ const jetBrains = JetBrains_Mono({
 const Navbar = () => {
   return (
     <header
-      className={`sticky top-5 backdrop-blur-md flex items-center justify-between rounded-2xl border border-[#303030] w-[960px] left-[calc(50%-960px/2)] z-10 p-5 ${jetBrains.className}`}
+      className={`sticky top-5 backdrop-blur-md flex items-center justify-between rounded-2xl border border-[#cecece] w-[960px] left-[calc(50%-960px/2)] z-10 px-5 py-7 ${jetBrains.className}`}
     >
       <div className="flex items-center gap-3 text-black">
         <LogoIcon variant="light" />

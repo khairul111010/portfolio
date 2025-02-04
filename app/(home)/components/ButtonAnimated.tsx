@@ -39,19 +39,13 @@ import React from "react";
 // export default ButtonAnimated;
 
 interface Props {
-  /** The text content to display in the animated spans */
   text: string;
-  /** The container height (e.g., "15px", "2rem"). This value is also used for the line-height. */
+  subText?: string;
   height?: string;
-  /** Optional additional CSS classes to apply to the container */
   className?: string;
-  /** Optional inline styles to apply to the container */
   style?: React.CSSProperties;
-  /** If provided, the component will render as a link (<a>) with this URL */
   href?: string;
-  /** Optional target attribute for the link */
   target?: string;
-  /** Optional rel attribute for the link */
   rel?: string;
 }
 
@@ -63,6 +57,7 @@ const ButtonAnimated: React.FC<Props> = ({
   href,
   target,
   rel,
+  subText,
 }) => {
   // Combine dynamic height and line-height with any custom styles.
   const containerStyle: React.CSSProperties = {
@@ -78,7 +73,7 @@ const ButtonAnimated: React.FC<Props> = ({
         {text}
       </span>
       <span className="group-hover:-top-full block h-full relative top-[0%] transition-all duration-300">
-        {text}
+        {subText ? subText : text}
       </span>
     </>
   );
