@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${latoSans.variable} antialiased`}>
+      <body className={`${latoSans.variable} antialiased !bg-gray-100`}>
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
