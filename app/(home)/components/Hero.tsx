@@ -5,7 +5,7 @@ const inter = Inter_Tight();
 const Hero = () => {
   return (
     <div className="h-screen bg-gray-50">
-      <div className="w-[1020px] py-14 mx-auto border justify-between flex items-center">
+      <div className="w-[1020px] py-36 mx-auto justify-between flex items-center">
         <div>
           <ButtonAnimated
             text="⚡ I help Making technology work for your businesses"
@@ -29,8 +29,8 @@ const Hero = () => {
           <ButtonAnimated
             href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3ZkUNVV7hOmpvJEvdsTqzvrYTAWbS_-d1k4HqKaLqFln_PSI6XR_GEI9c2-yjuVMx2L85OwQ2x?gv=true"
             text="Book a call"
-            className="bg-black px-3 rounded-full text-white text-base font-semibold mt-6"
-            height="40px"
+            className="bg-black px-4 rounded-full text-white text-sm font-medium mt-6"
+            height="44px"
           />
         </div>
         <div className="">

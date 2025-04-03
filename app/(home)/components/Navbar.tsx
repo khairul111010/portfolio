@@ -25,7 +25,7 @@ const Navbar = () => {
       <div className="flex items-center gap-7">
         <div className={`flex items-center ${jetBrains.className}`}>
           <div className="flex items-center text-xs gap-7">
-            <ButtonAnimated text="Service" />
+            <ButtonAnimated text="Service" href="#service" />
             <div>|</div>
             <ButtonAnimated text="Offer" />
             <div>|</div>
