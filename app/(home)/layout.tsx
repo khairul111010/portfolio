@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Lato } from "next/font/google";
+import { Open_Sans } from "next/font/google";
 import "./globals.css";
 
-const latoSans = Lato({
-  variable: "--font-lato",
+const latoSans = Open_Sans({
   weight: "400",
   subsets: ["latin"],
+  variable: "--font-lato-sans",
+  display: "swap",
 });
 
 export const metadata: Metadata = {

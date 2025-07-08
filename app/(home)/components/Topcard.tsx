@@ -4,7 +4,7 @@ const Topcard = () => {
   return (
     <div className="max-w-[720px] m-auto mt-16 text-black dark:text-white">
       <section className="col-span-3 bg-white dark:bg-[#1B1F23] overflow-hidden rounded-md relative shadow-md">
-        <img src={"/cover.svg"} alt="cover" className="w-full" />
+        <img src={"/cover.webp"} alt="cover" className="w-full" />
         <img
           src={"/dp.webp"}
           alt="Profile Picture"
@@ -18,6 +18,15 @@ const Topcard = () => {
             <LinkedInIcon />
           </div>
         </a>
+        <a
+          href="/Khairul_Hasan_resume.pdf"
+          download={true}
+          className="absolute right-4 bottom-4 mt-4 bg-[#ff0000] gap-2 flex items-center text-white p-2 rounded-md text-sm font-bold"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Resume
+        </a>
         <div className="flex items-start justify-between mt-[70px] p-4">
           <div>
             <div className="flex items-center gap-1">
@@ -27,13 +36,19 @@ const Topcard = () => {
               <img src={"/verified.svg"} alt="verified" className="w-6 h-6" />
             </div>
             <p className="dark:text-gray-300 text-slate-600 text-sm">
-              Frontend Engineer (4 yrs +) - React, Redux, Next, JavaScript,
+              Sr. Frontend Engineer (5 yrs +) - React, Redux, Next, JavaScript,
               TypeScript, Nodejs
             </p>
             <p className="dark:text-gray-300 text-slate-600 text-xs">
               Dhaka, Bangladesh
             </p>
             <div className="flex items-center gap-1 text-sm">
+              <div className="flex-shrink-0 relative">
+                <span className="absolute bottom-0 right-0 flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                </span>
+              </div>
               <div>Available</div>
               <a
                 className=" underline text-[#FF0000]"
