@@ -1,8 +1,8 @@
 const Footer = () => {
   return (
-    <footer className="absolute bottom-0 left-0 right-0 flex flex-col items-center">
+    <footer className=" text-center p-4 mt-8 absolute bottom-0 w-full">
       <section></section>
-      <section>Khairul Hasan &copy; 2024</section>
+      <section>Khairul Hasan &copy; {new Date().getFullYear()}</section>
     </footer>
   );
 };

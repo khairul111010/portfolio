@@ -1,6 +1,13 @@
+"use client";
 import LinkedInIcon from "@/app/components/icons/LinkedInIcon";
+import { useState } from "react";
+import Experience from "./Experience";
+import Project from "./Project";
 
 const Topcard = () => {
+  const [tabs, setTabs] = useState<"experience" | "projects" | "links">(
+    "experience"
+  );
   return (
     <div className="max-w-[720px] m-auto mt-16 text-black dark:text-white">
       <section className="col-span-3 bg-white dark:bg-[#1B1F23] overflow-hidden rounded-md relative shadow-md">
@@ -18,48 +25,86 @@ const Topcard = () => {
             <LinkedInIcon />
           </div>
         </a>
-        <a
-          href="/Khairul_Hasan_resume.pdf"
-          download={true}
-          className="absolute right-4 bottom-4 mt-4 bg-[#ff0000] gap-2 flex items-center text-white p-2 rounded-md text-sm font-bold"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Download Resume
-        </a>
-        <div className="flex items-start justify-between mt-[70px] p-4">
-          <div>
-            <div className="flex items-center gap-1">
-              <h1 className="text-2xl font-medium dark:text-white text-black">
-                Khairul Hasan
-              </h1>
-              <img src={"/verified.svg"} alt="verified" className="w-6 h-6" />
-            </div>
-            <p className="dark:text-gray-300 text-slate-600 text-sm">
-              Sr. Frontend Engineer (5 yrs +) - React, Redux, Next, JavaScript,
-              TypeScript, Nodejs
-            </p>
-            <p className="dark:text-gray-300 text-slate-600 text-xs">
-              Dhaka, Bangladesh
-            </p>
-            <div className="flex items-center gap-1 text-sm mt-2">
-              <div className="flex-shrink-0 relative">
-                <span className="flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                </span>
+
+        <div className="flex items-center w-full justify-between mt-[70px] p-4">
+          <div className="flex items-end w-full justify-between">
+            <div>
+              <div className="flex items-center gap-1">
+                <h1 className="text-2xl font-medium dark:text-white text-black">
+                  Khairul Hasan
+                </h1>
+                <img src={"/verified.svg"} alt="verified" className="w-6 h-6" />
               </div>
-              <div>Available</div>
-              <a
-                className=" underline text-[#FF0000]"
-                href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3ZkUNVV7hOmpvJEvdsTqzvrYTAWbS_-d1k4HqKaLqFln_PSI6XR_GEI9c2-yjuVMx2L85OwQ2x?gv=true"
-              >
-                Contact Me
-              </a>
+              <p className="dark:text-gray-300 text-slate-600 text-sm">
+                Sr. Frontend Engineer (5 yrs +) - React, Redux, Next,
+                JavaScript, TypeScript, Nodejs
+              </p>
+              <p className="dark:text-gray-300 text-slate-600 text-xs">
+                Dhaka, Bangladesh
+              </p>
+              <div className="flex items-center gap-1 text-sm mt-2">
+                <div className="flex-shrink-0 relative">
+                  <span className="flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                  </span>
+                </div>
+                <div>Available</div>
+                <a
+                  className=" underline text-[#FF0000]"
+                  href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3ZkUNVV7hOmpvJEvdsTqzvrYTAWbS_-d1k4HqKaLqFln_PSI6XR_GEI9c2-yjuVMx2L85OwQ2x?gv=true"
+                >
+                  Contact Me
+                </a>
+              </div>
             </div>
+
+            <a
+              href="/Khairul_Hasan_resume.pdf"
+              download={true}
+              className="mt-4 bg-[#ff0000] gap-2 flex items-center text-white p-2 rounded-md text-sm font-bold"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Resume
+            </a>
           </div>
-          <div></div>
         </div>
+
+        <div className="grid grid-cols-3 text-center text-sm font-medium dark:border-gray-600">
+          <div
+            role="button"
+            onClick={() => setTabs("experience")}
+            className={`p-4 hover:bg-slate-50 border-b-4 border-transparent ${
+              tabs === "experience" ? "border-red-500" : ""
+            }`}
+          >
+            Experience
+          </div>
+          <div
+            role="button"
+            onClick={() => setTabs("projects")}
+            className={`p-4 hover:bg-slate-50 border-b-4 border-transparent ${
+              tabs === "projects" ? "border-red-500" : ""
+            }`}
+          >
+            Projects
+          </div>
+          <div
+            role="button"
+            onClick={() => setTabs("links")}
+            className={`p-4 hover:bg-slate-50 border-b-4 border-transparent ${
+              tabs === "links" ? "border-red-500" : ""
+            }`}
+          >
+            Links
+          </div>
+        </div>
+        {tabs === "experience" ? (
+          <Experience />
+        ) : tabs === "projects" ? (
+          <Project />
+        ) : null}
       </section>
     </div>
   );
