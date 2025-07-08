@@ -10,11 +10,8 @@ import {
   Sparkles,
   TrendingUp,
 } from "lucide-react";
-import { useState } from "react";
 
 const Project = () => {
-  const [hoveredProject, setHoveredProject] = useState<any | null>(null);
-
   const projects = [
     {
       id: 1,
@@ -130,12 +127,7 @@ const Project = () => {
         {/* Projects Grid */}
         <div className="grid lg:grid-cols-3 gap-8 mb-16">
           {projects.map((project) => (
-            <div
-              key={project.id}
-              className="group relative"
-              onMouseEnter={() => setHoveredProject(project.id)}
-              onMouseLeave={() => setHoveredProject(null)}
-            >
+            <div key={project.id} className="group relative">
               {/* Main card */}
               <div className="bg-white/70 backdrop-blur-sm rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-700 overflow-hidden border border-slate-200/50 h-full">
                 {/* Header with gradient */}

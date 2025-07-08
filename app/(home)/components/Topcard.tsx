@@ -75,8 +75,8 @@ const Topcard = () => {
           <div
             role="button"
             onClick={() => setTabs("experience")}
-            className={`p-4 hover:bg-slate-50 border-b-4 border-transparent ${
-              tabs === "experience" ? "border-red-500" : ""
+            className={`p-4 hover:bg-slate-50 border-b-4 ${
+              tabs === "experience" ? "border-red-500" : "border-transparent"
             }`}
           >
             Experience
@@ -84,8 +84,8 @@ const Topcard = () => {
           <div
             role="button"
             onClick={() => setTabs("projects")}
-            className={`p-4 hover:bg-slate-50 border-b-4 border-transparent ${
-              tabs === "projects" ? "border-red-500" : ""
+            className={`p-4 hover:bg-slate-50 border-b-4 ${
+              tabs === "projects" ? "border-red-500" : "border-transparent"
             }`}
           >
             Projects
@@ -93,8 +93,8 @@ const Topcard = () => {
           <div
             role="button"
             onClick={() => setTabs("links")}
-            className={`p-4 hover:bg-slate-50 border-b-4 border-transparent ${
-              tabs === "links" ? "border-red-500" : ""
+            className={`p-4 hover:bg-slate-50 border-b-4 ${
+              tabs === "links" ? "border-red-500" : "border-transparent"
             }`}
           >
             Links

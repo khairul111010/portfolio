@@ -13,7 +13,7 @@ import {
 import { useState } from "react";
 
 const Experience = () => {
-  const [expandedCard, setExpandedCard] = useState(null);
+  const [expandedCard, setExpandedCard] = useState<number | null>(null);
 
   const experiences = [
     {
@@ -168,7 +168,7 @@ const Experience = () => {
     // },
   ];
 
-  const toggleCard = (id: any) => {
+  const toggleCard = (id: number) => {
     setExpandedCard(expandedCard === id ? null : id);
   };
 
