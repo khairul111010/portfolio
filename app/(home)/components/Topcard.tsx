@@ -25,7 +25,7 @@ const Topcard = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Resume
+          Download Resume
         </a>
         <div className="flex items-start justify-between mt-[70px] p-4">
           <div>
@@ -42,11 +42,11 @@ const Topcard = () => {
             <p className="dark:text-gray-300 text-slate-600 text-xs">
               Dhaka, Bangladesh
             </p>
-            <div className="flex items-center gap-1 text-sm">
+            <div className="flex items-center gap-1 text-sm mt-2">
               <div className="flex-shrink-0 relative">
-                <span className="absolute bottom-0 right-0 flex h-3 w-3">
+                <span className="flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                 </span>
               </div>
               <div>Available</div>
