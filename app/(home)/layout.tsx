@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Open_Sans } from "next/font/google";
+import { Figtree } from "next/font/google";
 import "./globals.css";
 
-const latoSans = Open_Sans({
+const figtree = Figtree({
   weight: "400",
   subsets: ["latin"],
-  variable: "--font-lato-sans",
+  variable: "--font-figtree",
   display: "swap",
 });
 
@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${latoSans.variable} antialiased bg-[#F4F2EE] dark:bg-black`}
+        className={`${figtree.variable} antialiased bg-[#F4F2EE] dark:bg-black`}
       >
         {children}
       </body>

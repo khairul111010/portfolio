@@ -5,6 +5,7 @@ import {
   ChevronDown,
   ChevronUp,
   Code,
+  Globe2Icon,
   MapPin,
   TrendingUp,
   Zap,
@@ -140,32 +141,36 @@ const Experience = () => {
         <img src="/iota.jpeg" alt="IOTA Logo" className="w-12 object-cover" />
       ),
     },
-    // {
-    //   id: 5,
-    //   role: "Jr. Software Engineer",
-    //   company: "ITGLOBALONLINE",
-    //   location: "Remote",
-    //   period: "Apr 2022 – Apr 2023",
-    //   status: "completed",
-    //   color: "from-amber-500 to-orange-500",
-    //   bgColor: "bg-amber-50",
-    //   borderColor: "border-amber-200",
-    //   achievements: [
-    //     "Reduced Google Maps API usage by 40%",
-    //     "Increased social media engagement by 53%",
-    //     "Built SAAS frontend for 55,000+ employees",
-    //   ],
-    //   metrics: [
-    //     {
-    //       value: "85%",
-    //       label: "Development efficiency improvement",
-    //       color: "text-amber-600",
-    //     },
-    //     { value: "40%", label: "API cost reduction", color: "text-green-600" },
-    //   ],
-    //   tech: ["JavaScript", "React", "SAAS", "API Optimization"],
-    //   icon: <Globe2Icon className="w-5 h-5 text-amber-600" />,
-    // },
+    {
+      id: 5,
+      role: "Junior Software Engineer",
+      company: "ITGlobalOnline",
+      location: "Dhaka, BD",
+      period: "Mar 2021 – Feb 2022",
+      status: "completed",
+      color: "from-amber-600 to-amber-600",
+      bgColor: "bg-amber-50",
+      borderColor: "border-amber-200",
+      achievements: [
+        "Developed REST API using Node.js & Web3.js for blockchain integration handling 500+ transactions daily",
+        "Improved NFT marketplace backend with Laravel to support daily active users seamlessly",
+        "Managed and optimized VPS servers across 5+ live platforms, ensuring 94% uptime",
+      ],
+      metrics: [
+        {
+          value: "500+",
+          label: "Blockchain transactions/day",
+          color: "text-amber-600",
+        },
+        {
+          value: "94%",
+          label: "Platform uptime maintained",
+          color: "text-amber-600",
+        },
+      ],
+      tech: ["Node.js", "Web3.js", "Laravel", "REST API", "Server Management"],
+      icon: <Globe2Icon className="w-5 h-5 text-amber-600" />,
+    },
   ];
 
   const toggleCard = (id: number) => {
@@ -180,7 +185,7 @@ const Experience = () => {
         {/* Timeline */}
         <div className="relative">
           {/* Vertical line */}
-          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-green-500 via-[#2D65F2] via-[#1A34D1] to-[#F01A26] opacity-30"></div>
+          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-green-500 via-[#2D65F2] via-[#1A34D1] via-[#F01A26] to-amber-600 opacity-30"></div>
 
           <div className="space-y-8">
             {experiences.map((exp, index) => (
@@ -197,14 +202,14 @@ const Experience = () => {
                 {/* Content card */}
                 <div className="ml-16 group">
                   <div
-                    className={`bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 border ${exp.borderColor} overflow-hidden`}
+                    className={`bg-white/80 dark:bg-slate-400 backdrop-blur-sm rounded-md shadow-lg hover:shadow-xl transition-all duration-500 border ${exp.borderColor} overflow-hidden`}
                   >
                     {/* Card header */}
                     <div
-                      className={`${exp.bgColor} py-4 px-2 cursor-pointer`}
+                      className={`${exp.bgColor} dark:bg-white py-4 px-2 cursor-pointer`}
                       onClick={() => toggleCard(exp.id)}
                     >
-                      <div className="flex items-center justify-between">
+                      <div className="flex md:flex-row flex-col md:items-center items-end justify-between">
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-2">
                             <div className={`p-2 rounded-lg text-white`}>
@@ -240,7 +245,7 @@ const Experience = () => {
                               Current
                             </span>
                           )}
-                          <button className="p-2 hover:bg-white/50 bg-white rounded-full transition-colors">
+                          <button className="p-2 hover:bg-white/50 bg-white dark:bg-slate-700 rounded-full transition-colors">
                             {expandedCard === exp.id ? (
                               <ChevronUp className="w-5 h-5" />
                             ) : (
@@ -253,9 +258,9 @@ const Experience = () => {
 
                     {/* Expanded content */}
                     <div
-                      className={`transition-all duration-500 overflow-hidden ${
+                      className={`transition-all duration-500 md:overflow-hidden overflow-y-auto ${
                         expandedCard === exp.id
-                          ? "max-h-[450px] opacity-100"
+                          ? "max-h-[600px] opacity-100"
                           : "max-h-0 opacity-0"
                       }`}
                     >
@@ -263,7 +268,7 @@ const Experience = () => {
                         <div className="grid md:grid-cols-2 gap-8">
                           {/* Achievements */}
                           <div>
-                            <h4 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
+                            <h4 className="font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                               <TrendingUp className="w-4 h-4" />
                               Key Achievements
                             </h4>
@@ -271,7 +276,7 @@ const Experience = () => {
                               {exp.achievements.map((achievement, i) => (
                                 <li
                                   key={i}
-                                  className="flex items-start gap-3 text-slate-700"
+                                  className="flex items-start gap-3 text-slate-700 dark:text-slate-300"
                                 >
                                   <div
                                     className={`w-2 h-2 rounded-full bg-gradient-to-r ${exp.color} mt-2 flex-shrink-0`}
@@ -288,7 +293,7 @@ const Experience = () => {
                           <div className="space-y-6">
                             {/* Impact metrics */}
                             <div>
-                              <h4 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
+                              <h4 className="font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                                 <Zap className="w-4 h-4" />
                                 Impact Metrics
                               </h4>
@@ -296,14 +301,14 @@ const Experience = () => {
                                 {exp.metrics.map((metric, i) => (
                                   <div
                                     key={i}
-                                    className="bg-white/50 backdrop-blur-sm p-4 rounded-xl border border-slate-200"
+                                    className="bg-white/50 dark:bg-slate-800 backdrop-blur-sm p-4 rounded-xl border border-slate-200"
                                   >
                                     <div
                                       className={`text-2xl font-bold ${metric.color} mb-1`}
                                     >
                                       {metric.value}
                                     </div>
-                                    <p className="text-xs text-slate-600">
+                                    <p className="text-xs text-slate-600 dark:text-slate-400">
                                       {metric.label}
                                     </p>
                                   </div>
@@ -313,7 +318,7 @@ const Experience = () => {
 
                             {/* Tech stack */}
                             <div>
-                              <h4 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
+                              <h4 className="font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                                 <Code className="w-4 h-4" />
                                 Tech Stack
                               </h4>

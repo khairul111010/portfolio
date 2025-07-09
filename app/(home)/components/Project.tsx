@@ -1,17 +1,27 @@
 "use client";
 import {
-  Bot,
   Calendar,
   ChevronRight,
-  DollarSign,
+  Copy,
   ExternalLink,
   Eye,
-  Shield,
-  Sparkles,
-  TrendingUp,
+  Key,
 } from "lucide-react";
+import React from "react";
 
 const Project = () => {
+  const [showCredentials, setShowCredentials] = React.useState<any>({});
+
+  const toggleCredentials = (projectId: number) => {
+    setShowCredentials((prev: any) => ({
+      ...prev,
+      [projectId]: !prev[projectId],
+    }));
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+  };
   const projects = [
     {
       id: 1,
@@ -19,7 +29,7 @@ const Project = () => {
       subtitle: "Enterprise Agricultural Management System",
       description:
         "Comprehensive ERP solution transforming agricultural operations with real-time tracking, investor management, and financial reconciliation.",
-      gradient: "from-blue-600 via-blue-700 to-cyan-600",
+      gradient: "bg-[#025647]",
       bgPattern:
         "bg-[radial-gradient(circle_at_30%_40%,rgba(59,130,246,0.1),transparent_70%)]",
       features: [
@@ -40,7 +50,13 @@ const Project = () => {
         transactions: "$800K+",
         efficiency: "30%",
       },
-      icon: <TrendingUp className="w-6 h-6" />,
+      credentials: {
+        email: "superadmin@wegro.global",
+        password: "123456",
+      },
+      icon: (
+        <img src="/wegro.png" alt="Wegro Logo" className="w-12 object-cover" />
+      ),
     },
     {
       id: 2,
@@ -48,7 +64,7 @@ const Project = () => {
       subtitle: "AI Fleet Management Platform",
       description:
         "Revolutionary AI-powered fleet management system optimizing routes, monitoring vehicle health, and reducing operational costs.",
-      gradient: "from-purple-600 via-pink-600 to-rose-600",
+      gradient: "bg-[#2D65F2]",
       bgPattern:
         "bg-[radial-gradient(circle_at_70%_30%,rgba(147,51,234,0.1),transparent_70%)]",
       features: [
@@ -69,7 +85,17 @@ const Project = () => {
         vehicles: "5K+",
         savings: "15%",
       },
-      icon: <Bot className="w-6 h-6" />,
+      credentials: {
+        email: "ydwbo@mailto.plus",
+        password: "Test@0202",
+      },
+      icon: (
+        <img
+          src="/fleetbloxIcon.svg"
+          alt="Fleetblox Logo"
+          className="w-12 object-cover"
+        />
+      ),
     },
     {
       id: 3,
@@ -77,7 +103,7 @@ const Project = () => {
       subtitle: "Next-Gen Accounting Suite",
       description:
         "Cutting-edge accounting software with advanced automation, AI integration, and seamless user experience for modern businesses.",
-      gradient: "from-green-600 via-emerald-600 to-teal-600",
+      gradient: "bg-[#2046AB]",
       bgPattern:
         "bg-[radial-gradient(circle_at_40%_80%,rgba(34,197,94,0.1),transparent_70%)]",
       features: [
@@ -95,49 +121,41 @@ const Project = () => {
       tech: ["AI", "FinTech", "Enterprise", "Automation", "Cloud"],
       impact: {
         clients: "500+",
-        accuracy: "99.9%",
-        time: "60%",
+        accuracy: "94%",
+        "Time Saved": "60%",
       },
-      icon: <Shield className="w-6 h-6" />,
+      credentials: {
+        email: "mobin@anchorblock.vc",
+        password: "12345678",
+      },
+      icon: (
+        <img
+          src="/anchorbooks.svg"
+          alt="Anchorbooks Logo"
+          className="w-20 object-cover"
+        />
+      ),
     },
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-br from-slate-50 via-white to-indigo-50 relative overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(59,130,246,0.03),transparent_50%)]"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_70%,rgba(147,51,234,0.03),transparent_50%)]"></div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+    <section className="py-8 relative overflow-hidden">
+      <div className="px-4 sm:px-6 lg:px-8 relative">
         {/* Header */}
-        <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium mb-6">
-            <Sparkles className="w-4 h-4" />
-            Featured Work
-          </div>
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-slate-900 via-blue-900 to-purple-900 bg-clip-text text-transparent mb-6">
-            Enterprise Solutions
-          </h2>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-            Showcasing enterprise-level solutions that drive business growth,
-            operational efficiency, and digital transformation
-          </p>
-        </div>
 
         {/* Projects Grid */}
-        <div className="grid lg:grid-cols-3 gap-8 mb-16">
+        <div className="flex flex-col gap-8 mb-16">
           {projects.map((project) => (
             <div key={project.id} className="group relative">
               {/* Main card */}
-              <div className="bg-white/70 backdrop-blur-sm rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-700 overflow-hidden border border-slate-200/50 h-full">
+              <div className="bg-white/70 backdrop-blur-sm rounded-md shadow-lg hover:shadow-2xl transition-all duration-700 overflow-hidden border border-slate-200/50 h-full">
                 {/* Header with gradient */}
                 <div
-                  className={`bg-gradient-to-r ${project.gradient} ${project.bgPattern} p-8 relative overflow-hidden`}
+                  className={`${project.gradient} p-8 relative overflow-hidden`}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/5 to-transparent"></div>
                   <div className="relative z-10">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="p-2 bg-white/20 backdrop-blur-sm rounded-xl text-white">
+                      <div className="p-2 bg-white backdrop-blur-sm rounded-xl text-white">
                         {project.icon}
                       </div>
                       <div className="flex-1">
@@ -169,11 +187,13 @@ const Project = () => {
                   {/* Features */}
                   <div className="mb-8">
                     <h4 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
-                      <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                      <div
+                        className={`w-2 h-2 ${project.gradient} rounded-full`}
+                      ></div>
                       Key Features
                     </h4>
                     <ul className="space-y-3">
-                      {project.features.slice(0, 3).map((feature, i) => (
+                      {project.features.map((feature, i) => (
                         <li
                           key={i}
                           className="flex items-start gap-3 text-slate-700"
@@ -184,11 +204,6 @@ const Project = () => {
                           </span>
                         </li>
                       ))}
-                      {project.features.length > 3 && (
-                        <li className="text-sm text-slate-500 ml-7">
-                          +{project.features.length - 3} more features
-                        </li>
-                      )}
                     </ul>
                   </div>
 
@@ -207,7 +222,7 @@ const Project = () => {
                   </div>
 
                   {/* Timeline and Value */}
-                  <div className="flex justify-between items-center mb-6 p-4 bg-slate-50/50 rounded-xl">
+                  <div className="flex justify-between items-center mb-6 p-4 bg-slate-50 rounded-xl">
                     <div className="flex items-center gap-2">
                       <Calendar className="w-4 h-4 text-slate-500" />
                       <div>
@@ -218,7 +233,6 @@ const Project = () => {
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <DollarSign className="w-4 h-4 text-green-600" />
                       <div className="text-right">
                         <div className="text-xs text-slate-500">Value</div>
                         <div className="font-semibold text-green-600 text-sm">
@@ -229,7 +243,7 @@ const Project = () => {
                   </div>
 
                   {/* Footer */}
-                  <div className="flex items-center justify-between">
+                  <div className="flex md:flex-row flex-col items-center justify-between">
                     <a
                       href={project.link}
                       target="_blank"
@@ -242,8 +256,8 @@ const Project = () => {
                     </a>
 
                     {/* Tech stack */}
-                    <div className="flex flex-wrap gap-2">
-                      {project.tech.slice(0, 3).map((tech, i) => (
+                    <div className="flex flex-wrap gap-2 md:mt-0 mt-4">
+                      {project.tech.map((tech, i) => (
                         <span
                           key={i}
                           className="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-xs font-medium"
@@ -252,6 +266,61 @@ const Project = () => {
                         </span>
                       ))}
                     </div>
+                  </div>
+                  <div className="mb-6 mt-4 p-4 bg-slate-50/50 rounded-xl border border-slate-200/50">
+                    <button
+                      onClick={() => toggleCredentials(project.id)}
+                      className="flex items-center gap-2 w-full text-left hover:text-slate-900 transition-colors"
+                    >
+                      <Key className="w-4 h-4 text-slate-500" />
+                      <span className="text-sm font-medium text-slate-700">
+                        Demo Credentials
+                      </span>
+                      <ChevronRight
+                        className={`w-4 h-4 text-slate-400 transition-transform ${
+                          showCredentials[project.id] ? "rotate-90" : ""
+                        }`}
+                      />
+                    </button>
+
+                    {showCredentials[project.id] && (
+                      <div className="mt-3 space-y-2 pl-6">
+                        <div className="flex items-center justify-between p-2 bg-white rounded-lg border">
+                          <div>
+                            <div className="text-xs text-slate-500">Email</div>
+                            <div className="font-mono text-sm text-slate-900">
+                              {project.credentials.email}
+                            </div>
+                          </div>
+                          <button
+                            onClick={() =>
+                              copyToClipboard(project.credentials.email)
+                            }
+                            className="p-1 hover:bg-slate-100 rounded transition-colors"
+                          >
+                            <Copy className="w-4 h-4 text-slate-500" />
+                          </button>
+                        </div>
+                        <div className="flex items-center justify-between p-2 bg-white rounded-lg border">
+                          <div>
+                            <div className="text-xs text-slate-500">
+                              Password
+                            </div>
+                            <div className="font-mono text-sm text-slate-900">
+                              {project.credentials.password}
+                            </div>
+                          </div>
+                          <button
+                            onClick={() =>
+                              copyToClipboard(project.credentials.password)
+                            }
+                            className="p-1 hover:bg-slate-100 rounded transition-colors"
+                          >
+                            <Copy className="w-4 h-4 text-slate-500" />
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -265,30 +334,6 @@ const Project = () => {
         </div>
 
         {/* Portfolio summary */}
-        <div className="bg-white/50 backdrop-blur-sm rounded-3xl p-8 border border-slate-200/50">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600 mb-2">3</div>
-              <div className="text-slate-600 text-sm">Major Projects</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-purple-600 mb-2">
-                20K+
-              </div>
-              <div className="text-slate-600 text-sm">Users Served</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-600 mb-2">
-                ₹26.8M+
-              </div>
-              <div className="text-slate-600 text-sm">Total Value</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-amber-600 mb-2">2+</div>
-              <div className="text-slate-600 text-sm">Years Active</div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );

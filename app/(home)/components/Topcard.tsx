@@ -1,8 +1,8 @@
 "use client";
-import LinkedInIcon from "@/app/components/icons/LinkedInIcon";
 import { useState } from "react";
 import Experience from "./Experience";
 import Project from "./Project";
+import Socials from "./Socials";
 
 const Topcard = () => {
   const [tabs, setTabs] = useState<"experience" | "projects" | "links">(
@@ -17,14 +17,6 @@ const Topcard = () => {
           alt="Profile Picture"
           className="h-36 w-36 object-contain rounded-full border-2 border-white dark:border-[#1B1F23] absolute -translate-y-2/4 translate-x-4"
         />
-        <a
-          href="https://www.linkedin.com/in/imkhairulhasan"
-          className="absolute right-10 mt-4 bg-[#ff0000] gap-2 flex items-center text-white p-2 rounded-md text-sm font-bold"
-        >
-          <div className="h-3 w-3">
-            <LinkedInIcon />
-          </div>
-        </a>
 
         <div className="flex items-center w-full justify-between mt-[70px] p-4">
           <div className="flex items-end w-full justify-between">
@@ -75,7 +67,7 @@ const Topcard = () => {
           <div
             role="button"
             onClick={() => setTabs("experience")}
-            className={`p-4 hover:bg-slate-50 border-b-4 ${
+            className={`p-4 hover:bg-slate-50 dark:hover:bg-slate-700 border-b-4 ${
               tabs === "experience" ? "border-red-500" : "border-transparent"
             }`}
           >
@@ -84,7 +76,7 @@ const Topcard = () => {
           <div
             role="button"
             onClick={() => setTabs("projects")}
-            className={`p-4 hover:bg-slate-50 border-b-4 ${
+            className={`p-4 hover:bg-slate-50 dark:hover:bg-slate-700 border-b-4 ${
               tabs === "projects" ? "border-red-500" : "border-transparent"
             }`}
           >
@@ -93,7 +85,7 @@ const Topcard = () => {
           <div
             role="button"
             onClick={() => setTabs("links")}
-            className={`p-4 hover:bg-slate-50 border-b-4 ${
+            className={`p-4 hover:bg-slate-50 dark:hover:bg-slate-700 border-b-4 ${
               tabs === "links" ? "border-red-500" : "border-transparent"
             }`}
           >
@@ -104,8 +96,13 @@ const Topcard = () => {
           <Experience />
         ) : tabs === "projects" ? (
           <Project />
-        ) : null}
+        ) : (
+          <Socials />
+        )}
       </section>
+      <footer className="my-8 text-center text-sm text-gray-500 dark:text-gray-400">
+        © {new Date().getFullYear()} Khairul Hasan. All rights reserved.
+      </footer>
     </div>
   );
 };
