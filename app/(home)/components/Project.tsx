@@ -7,22 +7,45 @@ import {
   Eye,
   Key,
 } from "lucide-react";
-import React from "react";
-
+import { JSX, useState } from "react";
+type ProjectType = {
+  id: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  gradient: string;
+  bgPattern: string;
+  features: string[];
+  timeline: string;
+  value: string;
+  status: "Live" | "Development";
+  link: string;
+  linkText: string;
+  tech: string[];
+  impact: Record<string, string>;
+  credentials: {
+    email: string;
+    password: string;
+  };
+  icon: JSX.Element;
+};
 const Project = () => {
-  const [showCredentials, setShowCredentials] = React.useState<any>({});
+  const [showCredentials, setShowCredentials] = useState<
+    Record<number, boolean>
+  >({});
 
-  const toggleCredentials = (projectId: number) => {
-    setShowCredentials((prev: any) => ({
+  const toggleCredentials = (projectId: number): void => {
+    setShowCredentials((prev) => ({
       ...prev,
       [projectId]: !prev[projectId],
     }));
   };
 
-  const copyToClipboard = (text: string) => {
+  const copyToClipboard = (text: string): void => {
     navigator.clipboard.writeText(text);
   };
-  const projects = [
+
+  const projects: ProjectType[] = [
     {
       id: 1,
       title: "WeGro ERP & Investor App",
