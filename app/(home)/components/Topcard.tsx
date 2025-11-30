@@ -63,7 +63,7 @@ const Topcard = () => {
 
             {/* Resume Button */}
             <a
-              href="/Khairul_Hasan_resume.pdf"
+              href="/KhairulHasan-CV.pdf"
               download
               className="mt-4 bg-[#ff0000] gap-2 flex items-center text-white p-2 rounded-md text-sm font-bold"
               target="_blank"
