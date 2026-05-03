@@ -1,0 +1,1231 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Design Engineer Portfolio</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap");
+
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg: #0a0a0a;
+        --fg: #f0ede8;
+        --fg-dim: #6b6760;
+        --fg-muted: #3a3835;
+        --accent: #e8d5b0;
+        --accent2: #c4a882;
+        --grid-color: rgba(240, 237, 232, 0.04);
+        --easing: cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--fg);
+        font-family: "Syne", sans-serif;
+        overflow-x: hidden;
+        cursor: none;
+        user-select: none;
+      }
+
+      /* CUSTOM CURSOR */
+      #cursor {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        background: var(--fg);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.2s var(--easing),
+          height 0.2s var(--easing),
+          background 0.2s;
+        mix-blend-mode: difference;
+      }
+      #cursor.expanded {
+        width: 56px;
+        height: 56px;
+        background: rgba(240, 237, 232, 0.15);
+        border: 1px solid var(--fg);
+      }
+      #cursor.magnetic {
+        width: 40px;
+        height: 40px;
+      }
+
+      /* DOT GRID BACKGROUND */
+      #dot-grid {
+        position: fixed;
+        top: -20px;
+        left: -20px;
+        width: calc(100% + 40px);
+        height: calc(100% + 40px);
+        pointer-events: none;
+        z-index: 0;
+        background-image: radial-gradient(
+          circle,
+          rgba(240, 237, 232, 0.18) 1px,
+          transparent 1px
+        );
+        background-size: 32px 32px;
+        transition: transform 0.1s linear;
+      }
+
+      /* LAYOUT */
+      #app {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+      }
+
+      /* HEADER */
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 40px;
+        border-bottom: 1px solid var(--fg-muted);
+        backdrop-filter: blur(12px);
+        background: rgba(10, 10, 10, 0.7);
+      }
+
+      .header-left {
+        font-family: "Space Mono", monospace;
+        font-size: 11px;
+        color: var(--fg-dim);
+        letter-spacing: 0.08em;
+      }
+
+      .live-clock {
+        font-family: "Space Mono", monospace;
+        font-size: 11px;
+        color: var(--accent);
+        letter-spacing: 0.05em;
+      }
+
+      .header-nav {
+        display: flex;
+        gap: 32px;
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .header-nav a {
+        color: var(--fg-dim);
+        text-decoration: none;
+        transition: color 0.2s;
+        cursor: none;
+      }
+      .header-nav a:hover {
+        color: var(--fg);
+      }
+
+      /* COORDINATE TRACKER */
+      #coords {
+        position: fixed;
+        bottom: 24px;
+        left: 40px;
+        font-family: "Space Mono", monospace;
+        font-size: 10px;
+        color: var(--fg-dim);
+        z-index: 100;
+        letter-spacing: 0.05em;
+        pointer-events: none;
+      }
+
+      /* STATUS BAR */
+      #status-bar {
+        position: fixed;
+        bottom: 24px;
+        right: 40px;
+        font-family: "Space Mono", monospace;
+        font-size: 10px;
+        color: var(--fg-dim);
+        z-index: 100;
+        pointer-events: none;
+        display: flex;
+        gap: 24px;
+        align-items: center;
+      }
+
+      .status-dot {
+        width: 6px;
+        height: 6px;
+        background: #4ade80;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 6px;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.4;
+        }
+      }
+
+      /* HERO SECTION */
+      #hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 120px 40px 80px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-meta {
+        font-family: "Space Mono", monospace;
+        font-size: 10px;
+        color: var(--fg-dim);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 48px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.6s var(--easing),
+          transform 0.6s var(--easing);
+      }
+      .hero-meta.revealed {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* DRAGGABLE HEADLINE */
+      #headline-wrap {
+        position: relative;
+        overflow: visible;
+      }
+
+      #draggable-headline {
+        cursor: grab;
+        display: inline-block;
+        position: relative;
+        touch-action: none;
+      }
+      #draggable-headline:active {
+        cursor: grabbing;
+      }
+
+      .headline-line {
+        display: block;
+        line-height: 0.92;
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.7s var(--easing),
+          transform 0.7s var(--easing);
+      }
+      .headline-line.revealed {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .hl-solid {
+        font-family: "Syne", sans-serif;
+        font-size: clamp(64px, 11vw, 140px);
+        font-weight: 800;
+        color: var(--fg);
+        letter-spacing: -0.03em;
+      }
+
+      .hl-outline {
+        font-family: "Syne", sans-serif;
+        font-size: clamp(64px, 11vw, 140px);
+        font-weight: 800;
+        color: transparent;
+        -webkit-text-stroke: 1.5px var(--accent2);
+        letter-spacing: -0.03em;
+      }
+
+      .hl-mix {
+        font-family: "Syne", sans-serif;
+        font-size: clamp(64px, 11vw, 140px);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+      }
+
+      .hero-sub {
+        margin-top: 48px;
+        display: flex;
+        gap: 60px;
+        align-items: flex-end;
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.6s var(--easing) 0.5s,
+          transform 0.6s var(--easing) 0.5s;
+      }
+      .hero-sub.revealed {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .hero-desc {
+        max-width: 340px;
+        font-size: 15px;
+        color: var(--fg-dim);
+        line-height: 1.7;
+        font-weight: 400;
+      }
+
+      .hero-cta {
+        font-family: "Space Mono", monospace;
+        font-size: 11px;
+        color: var(--fg);
+        text-decoration: none;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        border: 1px solid var(--fg-muted);
+        padding: 14px 28px;
+        cursor: none;
+        transition:
+          border-color 0.2s,
+          color 0.2s;
+        white-space: nowrap;
+      }
+      .hero-cta:hover {
+        border-color: var(--fg);
+      }
+
+      /* DRAG HINT */
+      .drag-hint {
+        position: absolute;
+        bottom: -28px;
+        left: 0;
+        font-family: "Space Mono", monospace;
+        font-size: 9px;
+        color: var(--fg-dim);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        opacity: 0.5;
+        pointer-events: none;
+      }
+
+      /* DIVIDER */
+      .section-divider {
+        padding: 0 40px;
+        margin: 40px 0;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .divider-label {
+        font-family: "Space Mono", monospace;
+        font-size: 9px;
+        color: var(--fg-dim);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .divider-line {
+        flex: 1;
+        height: 1px;
+        background: var(--fg-muted);
+      }
+
+      /* PROJECTS GRID */
+      #projects {
+        padding: 0 40px 120px;
+      }
+
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2px;
+      }
+
+      /* PROJECT CARD */
+      .project-card {
+        position: relative;
+        aspect-ratio: 4/3;
+        overflow: hidden;
+        cursor: none;
+        background: var(--fg-muted);
+      }
+
+      .project-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient(
+          to bottom,
+          transparent 40%,
+          rgba(10, 10, 10, 0.85) 100%
+        );
+        opacity: 0;
+        transition: opacity 0.4s var(--easing);
+      }
+      .project-card:hover::before {
+        opacity: 1;
+      }
+
+      .card-bg {
+        position: absolute;
+        inset: 0;
+        transition: transform 0.6s var(--easing);
+      }
+      .project-card:hover .card-bg {
+        transform: scale(1.04);
+      }
+
+      .card-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 28px;
+        z-index: 2;
+        transform: translateY(12px);
+        opacity: 0;
+        transition:
+          transform 0.4s var(--easing),
+          opacity 0.4s var(--easing);
+      }
+      .project-card:hover .card-content {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .card-index {
+        font-family: "Space Mono", monospace;
+        font-size: 9px;
+        color: var(--accent2);
+        letter-spacing: 0.15em;
+        margin-bottom: 8px;
+      }
+
+      .card-title {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--fg);
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+      }
+
+      .card-tags {
+        margin-top: 10px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .card-tag {
+        font-family: "Space Mono", monospace;
+        font-size: 9px;
+        color: var(--fg-dim);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        border: 1px solid var(--fg-muted);
+        padding: 4px 8px;
+      }
+
+      /* CARD EXPANDED (CASE STUDY) */
+      #case-study {
+        position: fixed;
+        inset: 0;
+        z-index: 500;
+        display: none;
+        flex-direction: column;
+        overflow-y: auto;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.5s var(--easing);
+      }
+      #case-study.open {
+        pointer-events: all;
+        opacity: 1;
+      }
+
+      .case-bg {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        transition: none;
+      }
+
+      .case-header {
+        padding: 100px 60px 60px;
+        border-bottom: 1px solid rgba(240, 237, 232, 0.1);
+      }
+
+      .case-back {
+        font-family: "Space Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        color: var(--fg-dim);
+        text-transform: uppercase;
+        cursor: none;
+        background: none;
+        border: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 48px;
+        transition: color 0.2s;
+      }
+      .case-back:hover {
+        color: var(--fg);
+      }
+
+      .case-title {
+        font-size: clamp(48px, 7vw, 96px);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 0.95;
+        color: var(--fg);
+      }
+
+      .case-body {
+        padding: 60px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+      }
+
+      .case-img {
+        aspect-ratio: 16/9;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .case-info {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+      }
+
+      .case-label {
+        font-family: "Space Mono", monospace;
+        font-size: 9px;
+        color: var(--fg-dim);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+
+      .case-value {
+        font-size: 16px;
+        color: var(--fg);
+        line-height: 1.6;
+      }
+
+      /* ABOUT STRIP */
+      #about {
+        padding: 80px 40px;
+        border-top: 1px solid var(--fg-muted);
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 80px;
+      }
+
+      .about-label {
+        font-family: "Space Mono", monospace;
+        font-size: 10px;
+        color: var(--fg-dim);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding-top: 4px;
+      }
+
+      .about-text {
+        font-size: 18px;
+        line-height: 1.75;
+        color: var(--fg);
+        font-weight: 400;
+      }
+
+      .about-text span {
+        color: var(--accent2);
+      }
+
+      /* SKILLS ROW */
+      .skills-row {
+        margin-top: 48px;
+        padding-top: 32px;
+        border-top: 1px solid var(--fg-muted);
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+      }
+
+      .skill-item {
+        font-family: "Space Mono", monospace;
+        font-size: 10px;
+        color: var(--fg-dim);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      /* MARQUEE */
+      #marquee-wrap {
+        overflow: hidden;
+        border-top: 1px solid var(--fg-muted);
+        border-bottom: 1px solid var(--fg-muted);
+        padding: 20px 0;
+        margin: 40px 0;
+      }
+
+      .marquee-track {
+        display: flex;
+        animation: marquee 18s linear infinite;
+        width: max-content;
+      }
+
+      .marquee-item {
+        font-family: "Syne", sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--fg-muted);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        padding: 0 40px;
+        white-space: nowrap;
+      }
+
+      .marquee-sep {
+        color: var(--accent2);
+        padding: 0 8px;
+      }
+
+      @keyframes marquee {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 768px) {
+        .projects-grid {
+          grid-template-columns: 1fr;
+        }
+        .case-body {
+          grid-template-columns: 1fr;
+        }
+        #about {
+          grid-template-columns: 1fr;
+          gap: 32px;
+        }
+        .hero-sub {
+          flex-direction: column;
+          gap: 24px;
+        }
+        header {
+          padding: 16px 20px;
+        }
+        #hero {
+          padding: 100px 20px 60px;
+        }
+        #projects {
+          padding: 0 20px 80px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="cursor"></div>
+    <div id="dot-grid"></div>
+
+    <!-- COORDINATE TRACKER -->
+    <div id="coords">dx: 0 / dy: 0</div>
+
+    <!-- STATUS BAR -->
+    <div id="status-bar">
+      <span><span class="status-dot"></span>[STATUS: AVAILABLE]</span>
+      <span>[EST_TIME: 2025–]</span>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+      <div class="header-left">[FOLIO_V3] — DESIGN ENGINEER</div>
+      <nav class="header-nav">
+        <a href="#" class="mag-target">Work</a>
+        <a href="#" class="mag-target">About</a>
+        <a href="#" class="mag-target">Contact</a>
+      </nav>
+      <div class="live-clock" id="clock">00:00:00</div>
+    </header>
+
+    <div id="app">
+      <!-- HERO -->
+      <section id="hero">
+        <div class="hero-meta" id="hero-meta">
+          [CREATIVE TECHNOLOGIST] — [BASED IN DHAKA] — [AVAILABLE FOR PROJECTS]
+        </div>
+
+        <div id="headline-wrap">
+          <div id="draggable-headline">
+            <span class="headline-line hl-solid" id="hl1">DESIGN</span>
+            <span class="headline-line" id="hl2">
+              <span class="hl-outline">ENGI</span
+              ><span class="hl-solid">NEER</span>
+            </span>
+            <span
+              class="headline-line hl-solid"
+              id="hl3"
+              style="color: var(--accent2)"
+              >PORTFOLIO</span
+            >
+            <div class="drag-hint">↔ DRAG &amp; TOSS</div>
+          </div>
+        </div>
+
+        <div class="hero-sub" id="hero-sub">
+          <p class="hero-desc">
+            Crafting high-performance digital experiences at the intersection of
+            design systems, motion engineering, and creative code. Every pixel,
+            intentional.
+          </p>
+          <a href="#projects" class="hero-cta mag-target">View Projects ↓</a>
+        </div>
+      </section>
+
+      <!-- MARQUEE -->
+      <div id="marquee-wrap">
+        <div class="marquee-track" id="marquee">
+          <span class="marquee-item"
+            >Motion Design <span class="marquee-sep">✦</span></span
+          >
+          <span class="marquee-item"
+            >Creative Development <span class="marquee-sep">✦</span></span
+          >
+          <span class="marquee-item"
+            >Design Systems <span class="marquee-sep">✦</span></span
+          >
+          <span class="marquee-item"
+            >GSAP / Framer Motion <span class="marquee-sep">✦</span></span
+          >
+          <span class="marquee-item"
+            >WebGL / Three.js <span class="marquee-sep">✦</span></span
+          >
+          <span class="marquee-item"
+            >React / Next.js <span class="marquee-sep">✦</span></span
+          >
+          <span class="marquee-item"
+            >Motion Design <span class="marquee-sep">✦</span></span
+          >
+          <span class="marquee-item"
+            >Creative Development <span class="marquee-sep">✦</span></span
+          >
+          <span class="marquee-item"
+            >Design Systems <span class="marquee-sep">✦</span></span
+          >
+          <span class="marquee-item"
+            >GSAP / Framer Motion <span class="marquee-sep">✦</span></span
+          >
+          <span class="marquee-item"
+            >WebGL / Three.js <span class="marquee-sep">✦</span></span
+          >
+          <span class="marquee-item"
+            >React / Next.js <span class="marquee-sep">✦</span></span
+          >
+        </div>
+      </div>
+
+      <!-- SECTION DIVIDER -->
+      <div class="section-divider">
+        <span class="divider-label">[SELECTED WORK_2023–25]</span>
+        <div class="divider-line"></div>
+        <span class="divider-label">06 PROJECTS</span>
+      </div>
+
+      <!-- PROJECTS -->
+      <section id="projects">
+        <div class="projects-grid" id="projects-grid">
+          <!-- Cards injected by JS -->
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about">
+        <div class="about-label">[ABOUT_ME]</div>
+        <div>
+          <p class="about-text">
+            I'm a <span>design engineer</span> who lives in the tension between
+            aesthetics and engineering. I obsess over the 16ms frame, the 0.3s
+            transition, the exact bezier curve that makes an interface feel
+            <span>inevitable</span>.
+          </p>
+          <div class="skills-row">
+            <span class="skill-item">React / Next.js</span>
+            <span class="skill-item">GSAP</span>
+            <span class="skill-item">Framer Motion</span>
+            <span class="skill-item">Three.js / WebGL</span>
+            <span class="skill-item">Design Systems</span>
+            <span class="skill-item">TypeScript</span>
+            <span class="skill-item">Creative Direction</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- CASE STUDY OVERLAY -->
+    <div id="case-study">
+      <div class="case-bg" id="case-bg"></div>
+      <div class="case-header">
+        <button class="case-back" id="case-back">← CLOSE PROJECT</button>
+        <div
+          id="case-index"
+          style="
+            font-family: &quot;Space Mono&quot;, monospace;
+            font-size: 10px;
+            color: var(--accent2);
+            letter-spacing: 0.15em;
+            margin-bottom: 16px;
+          "
+        ></div>
+        <h2 class="case-title" id="case-title"></h2>
+      </div>
+      <div class="case-body">
+        <div class="case-img" id="case-img"></div>
+        <div class="case-info">
+          <div>
+            <div class="case-label">[PROJECT_TYPE]</div>
+            <div class="case-value" id="case-type"></div>
+          </div>
+          <div>
+            <div class="case-label">[EST_TIME]</div>
+            <div class="case-value" id="case-time"></div>
+          </div>
+          <div>
+            <div class="case-label">[TECHNOLOGIES]</div>
+            <div class="case-value" id="case-tech"></div>
+          </div>
+          <div>
+            <div class="case-label">[DESCRIPTION]</div>
+            <div class="case-value" id="case-desc"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const EASING = "cubic-bezier(0.22, 1, 0.36, 1)";
+
+      // ─── PROJECTS DATA ───────────────────────────────────────────────────
+      const projects = [
+        {
+          index: "PROJECT_01",
+          title: "Kinetic\nBrand System",
+          type: "Brand Identity / Motion",
+          time: "8 weeks / 2024",
+          tech: "After Effects, React, GSAP, SVG",
+          desc: "A living identity system where every asset breathes. Procedural animation rules define motion across touchpoints—from micro-interactions to full-scale campaigns.",
+          color: "#1a1208",
+          accent: "#c4a060",
+          pattern:
+            "radial-gradient(ellipse at 20% 50%, #c4a06022 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, #3d2a0844 0%, transparent 50%)",
+        },
+        {
+          index: "PROJECT_02",
+          title: "Spatial\nCommerce",
+          type: "E-Commerce / 3D UX",
+          time: "12 weeks / 2024",
+          tech: "Three.js, React Three Fiber, Shopify",
+          desc: "A luxury retail experience where products exist in three dimensions. Customers orbit, inspect, and configure items before purchase—reducing returns by 34%.",
+          color: "#080d14",
+          accent: "#4a8fd4",
+          pattern:
+            "radial-gradient(ellipse at 70% 30%, #4a8fd422 0%, transparent 55%), radial-gradient(ellipse at 20% 80%, #0d2a4455 0%, transparent 50%)",
+        },
+        {
+          index: "PROJECT_03",
+          title: "Neural\nDashboard",
+          type: "Data Visualization / SaaS",
+          time: "6 weeks / 2023",
+          tech: "D3.js, React, WebGL, Framer Motion",
+          desc: "Real-time ML pipeline monitoring with ambient data density. Thousands of nodes rendered at 60fps. The interface disappears; only insight remains.",
+          color: "#050d0a",
+          accent: "#3dd68c",
+          pattern:
+            "radial-gradient(ellipse at 30% 60%, #3dd68c18 0%, transparent 55%), radial-gradient(ellipse at 75% 20%, #0d3d2244 0%, transparent 50%)",
+        },
+        {
+          index: "PROJECT_04",
+          title: "Archive\nMachine",
+          type: "Editorial / Interactive",
+          time: "4 weeks / 2023",
+          tech: "Next.js, GSAP ScrollTrigger, Prismic",
+          desc: "A 50-year photographic archive rebuilt as a spatial journey. Scroll velocity controls time. The interface becomes a time machine.",
+          color: "#100808",
+          accent: "#d46a4a",
+          pattern:
+            "radial-gradient(ellipse at 60% 40%, #d46a4a1a 0%, transparent 55%), radial-gradient(ellipse at 20% 70%, #3d150844 0%, transparent 50%)",
+        },
+      ];
+
+      // ─── DOM REFS ────────────────────────────────────────────────────────
+      const cursor = document.getElementById("cursor");
+      const dotGrid = document.getElementById("dot-grid");
+      const coordsEl = document.getElementById("coords");
+      const clockEl = document.getElementById("clock");
+      const caseStudy = document.getElementById("case-study");
+      const caseBg = document.getElementById("case-bg");
+      const caseBack = document.getElementById("case-back");
+      const grid = document.getElementById("projects-grid");
+
+      // ─── MOUSE STATE ─────────────────────────────────────────────────────
+      let mouseX = 0,
+        mouseY = 0;
+      let cursorX = 0,
+        cursorY = 0;
+      let magnetTarget = null;
+
+      // ─── CLOCK ───────────────────────────────────────────────────────────
+      function updateClock() {
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2, "0");
+        const m = String(now.getMinutes()).padStart(2, "0");
+        const s = String(now.getSeconds()).padStart(2, "0");
+        clockEl.textContent = `${h}:${m}:${s}`;
+      }
+      setInterval(updateClock, 1000);
+      updateClock();
+
+      // ─── CURSOR + PARALLAX ───────────────────────────────────────────────
+      const centerX = () => window.innerWidth / 2;
+      const centerY = () => window.innerHeight / 2;
+
+      document.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        const dx = Math.round(e.clientX - centerX());
+        const dy = Math.round(e.clientY - centerY());
+        coordsEl.textContent = `dx: ${dx > 0 ? "+" : ""}${dx} / dy: ${dy > 0 ? "+" : ""}${dy}`;
+        dotGrid.style.transform = `translate(${-dx * 0.03}px, ${-dy * 0.03}px)`;
+      });
+
+      function animateCursor() {
+        if (magnetTarget) {
+          const rect = magnetTarget.getBoundingClientRect();
+          const cx = rect.left + rect.width / 2;
+          const cy = rect.top + rect.height / 2;
+          const dx = mouseX - cx;
+          const dy = mouseY - cy;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 80) {
+            cursorX += (cx + dx * 0.3 - cursorX) * 0.18;
+            cursorY += (cy + dy * 0.3 - cursorY) * 0.18;
+          } else {
+            magnetTarget = null;
+            cursorX += (mouseX - cursorX) * 0.15;
+            cursorY += (mouseY - cursorY) * 0.15;
+          }
+        } else {
+          cursorX += (mouseX - cursorX) * 0.15;
+          cursorY += (mouseY - cursorY) * 0.15;
+        }
+        cursor.style.left = cursorX + "px";
+        cursor.style.top = cursorY + "px";
+        requestAnimationFrame(animateCursor);
+      }
+      animateCursor();
+
+      function setupMagnetic() {
+        document.querySelectorAll(".mag-target").forEach((el) => {
+          el.addEventListener("mouseenter", () => {
+            magnetTarget = el;
+            cursor.classList.add("magnetic");
+          });
+          el.addEventListener("mouseleave", () => {
+            magnetTarget = null;
+            cursor.classList.remove("magnetic");
+          });
+        });
+      }
+
+      // ─── STAGGERED HERO REVEAL ────────────────────────────────────────────
+      function revealHero() {
+        const els = [
+          { el: document.getElementById("hero-meta"), delay: 0 },
+          { el: document.getElementById("hl1"), delay: 150 },
+          { el: document.getElementById("hl2"), delay: 280 },
+          { el: document.getElementById("hl3"), delay: 410 },
+          { el: document.getElementById("hero-sub"), delay: 560 },
+        ];
+        els.forEach(({ el, delay }) => {
+          if (!el) return;
+          setTimeout(() => el.classList.add("revealed"), delay);
+        });
+      }
+      setTimeout(revealHero, 200);
+
+      // ─── DRAGGABLE HEADLINE WITH PHYSICS ─────────────────────────────────
+      const headline = document.getElementById("draggable-headline");
+      let isDragging = false;
+      let dragStartX = 0,
+        dragStartY = 0;
+      let tx = 0,
+        ty = 0;
+      let vx = 0,
+        vy = 0;
+      let lastX = 0,
+        lastY = 0;
+      let lastTime = 0;
+      let animFrame = null;
+
+      headline.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        dragStartX = e.clientX - tx;
+        dragStartY = e.clientY - ty;
+        lastX = e.clientX;
+        lastY = e.clientY;
+        lastTime = performance.now();
+        vx = 0;
+        vy = 0;
+        headline.style.transition = "none";
+        cursor.classList.add("expanded");
+        if (animFrame) {
+          cancelAnimationFrame(animFrame);
+          animFrame = null;
+        }
+        e.preventDefault();
+      });
+
+      document.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+        const now = performance.now();
+        const dt = now - lastTime;
+        if (dt > 0) {
+          vx = ((e.clientX - lastX) / dt) * 16;
+          vy = ((e.clientY - lastY) / dt) * 16;
+        }
+        lastX = e.clientX;
+        lastY = e.clientY;
+        lastTime = now;
+        tx = e.clientX - dragStartX;
+        ty = e.clientY - dragStartY;
+        headline.style.transform = `translate(${tx}px, ${ty}px)`;
+      });
+
+      document.addEventListener("mouseup", () => {
+        if (!isDragging) return;
+        isDragging = false;
+        cursor.classList.remove("expanded");
+        startInertia();
+      });
+
+      headline.addEventListener("mouseenter", () => {
+        if (!isDragging) cursor.classList.add("expanded");
+      });
+      headline.addEventListener("mouseleave", () => {
+        if (!isDragging) cursor.classList.remove("expanded");
+      });
+
+      function startInertia() {
+        const stiffness = 0.08;
+        const damping = 0.72;
+
+        function step() {
+          if (isDragging) return;
+          tx += vx;
+          ty += vy;
+          vx = (vx + -tx * stiffness) * damping;
+          vy = (vy + -ty * stiffness) * damping;
+          headline.style.transform = `translate(${tx}px, ${ty}px)`;
+          if (
+            Math.abs(tx) < 0.5 &&
+            Math.abs(ty) < 0.5 &&
+            Math.abs(vx) < 0.3 &&
+            Math.abs(vy) < 0.3
+          ) {
+            tx = 0;
+            ty = 0;
+            headline.style.transform = "";
+            return;
+          }
+          animFrame = requestAnimationFrame(step);
+        }
+        animFrame = requestAnimationFrame(step);
+      }
+
+      // Touch support
+      headline.addEventListener("touchstart", (e) => {
+        const t = e.touches[0];
+        isDragging = true;
+        dragStartX = t.clientX - tx;
+        dragStartY = t.clientY - ty;
+        lastX = t.clientX;
+        lastY = t.clientY;
+        lastTime = performance.now();
+        vx = 0;
+        vy = 0;
+        headline.style.transition = "none";
+        if (animFrame) {
+          cancelAnimationFrame(animFrame);
+          animFrame = null;
+        }
+      });
+      document.addEventListener(
+        "touchmove",
+        (e) => {
+          if (!isDragging) return;
+          const t = e.touches[0];
+          const now = performance.now();
+          const dt = now - lastTime;
+          if (dt > 0) {
+            vx = ((t.clientX - lastX) / dt) * 16;
+            vy = ((t.clientY - lastY) / dt) * 16;
+          }
+          lastX = t.clientX;
+          lastY = t.clientY;
+          lastTime = now;
+          tx = t.clientX - dragStartX;
+          ty = t.clientY - dragStartY;
+          headline.style.transform = `translate(${tx}px, ${ty}px)`;
+          e.preventDefault();
+        },
+        { passive: false },
+      );
+      document.addEventListener("touchend", () => {
+        if (!isDragging) return;
+        isDragging = false;
+        startInertia();
+      });
+
+      // ─── PROJECT CARDS ────────────────────────────────────────────────────
+      function buildCards() {
+        projects.forEach((p, i) => {
+          const card = document.createElement("div");
+          card.className = "project-card";
+          card.dataset.index = i;
+
+          const bg = document.createElement("div");
+          bg.className = "card-bg";
+          bg.style.background = p.color;
+          bg.style.backgroundImage = p.pattern;
+
+          const shape = document.createElement("div");
+          shape.style.cssText = `position:absolute;width:60%;height:60%;border-radius:50%;background:${p.accent}11;border:1px solid ${p.accent}33;top:10%;right:-10%;pointer-events:none;`;
+          bg.appendChild(shape);
+
+          const shape2 = document.createElement("div");
+          shape2.style.cssText = `position:absolute;width:30%;aspect-ratio:1;border-radius:50%;border:1px solid ${p.accent}22;top:50%;left:10%;pointer-events:none;`;
+          bg.appendChild(shape2);
+
+          const content = document.createElement("div");
+          content.className = "card-content";
+          content.innerHTML = `
+      <div class="card-index">[${p.index}]</div>
+      <div class="card-title">${p.title.replace("\n", "<br>")}</div>
+      <div class="card-tags">
+        ${p.type
+          .split("/")
+          .map((t) => `<span class="card-tag">${t.trim()}</span>`)
+          .join("")}
+      </div>
+    `;
+
+          card.appendChild(bg);
+          card.appendChild(content);
+          card.addEventListener("click", () => openCase(i, card));
+          card.addEventListener("mouseenter", () =>
+            cursor.classList.add("magnetic"),
+          );
+          card.addEventListener("mouseleave", () =>
+            cursor.classList.remove("magnetic"),
+          );
+          grid.appendChild(card);
+        });
+      }
+      buildCards();
+
+      // ─── CASE STUDY EXPAND ───────────────────────────────────────────────
+      let activeCase = null;
+
+      function openCase(idx, cardEl) {
+        const p = projects[idx];
+        const rect = cardEl.getBoundingClientRect();
+        const ox =
+          (((rect.left + rect.width / 2) / window.innerWidth) * 100).toFixed(
+            1,
+          ) + "%";
+        const oy =
+          (((rect.top + rect.height / 2) / window.innerHeight) * 100).toFixed(
+            1,
+          ) + "%";
+
+        caseBg.style.background = p.color;
+        caseBg.style.backgroundImage = p.pattern;
+        caseBg.style.transformOrigin = `${ox} ${oy}`;
+        caseBg.style.transition = "none";
+        caseBg.style.transform = "scale(0.1)";
+        caseBg.style.opacity = "0";
+
+        document.getElementById("case-index").textContent = `[${p.index}]`;
+        document.getElementById("case-title").textContent = p.title.replace(
+          "\n",
+          " ",
+        );
+        document.getElementById("case-type").textContent = p.type;
+        document.getElementById("case-time").textContent = p.time;
+        document.getElementById("case-tech").textContent = p.tech;
+        document.getElementById("case-desc").textContent = p.desc;
+
+        const caseImg = document.getElementById("case-img");
+        caseImg.style.background = p.color;
+        caseImg.style.backgroundImage = p.pattern;
+        caseImg.style.backgroundSize = "cover";
+
+        caseStudy.style.display = "flex";
+        caseStudy.style.background = p.color + "ee";
+
+        requestAnimationFrame(() => {
+          caseBg.style.transition = `transform 0.8s ${EASING}, opacity 0.5s ${EASING}`;
+          caseBg.style.transform = "scale(1)";
+          caseBg.style.opacity = "1";
+          setTimeout(() => caseStudy.classList.add("open"), 20);
+        });
+
+        activeCase = idx;
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeCase() {
+        caseStudy.classList.remove("open");
+        caseBg.style.transition = `transform 0.6s ${EASING}, opacity 0.4s ${EASING}`;
+        caseBg.style.transform = "scale(0.08)";
+        caseBg.style.opacity = "0";
+        setTimeout(() => {
+          caseStudy.style.display = "none";
+          document.body.style.overflow = "";
+        }, 600);
+        activeCase = null;
+      }
+
+      caseBack.addEventListener("click", closeCase);
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && activeCase !== null) closeCase();
+      });
+
+      setupMagnetic();
+    </script>
+  </body>
+</html>
