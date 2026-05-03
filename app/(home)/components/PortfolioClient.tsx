@@ -324,7 +324,7 @@ export default function PortfolioClient() {
     if (caseIndexTextRef.current)
       caseIndexTextRef.current.textContent = `[${p.index}]`;
     if (caseTitleRef.current)
-      caseTitleRef.current.textContent = p.title.replace("\n", " ");
+      caseTitleRef.current.textContent = p.title.replace(/\n/g, " ");
     if (caseTypeRef.current) caseTypeRef.current.textContent = p.type;
     if (caseTimeRef.current) caseTimeRef.current.textContent = p.time;
     if (caseTechRef.current) caseTechRef.current.textContent = p.tech;
@@ -697,7 +697,7 @@ function ProjectCard({
         <div className="card-index">[{p.index}]</div>
         <div
           className="card-title"
-          dangerouslySetInnerHTML={{ __html: p.title.replace("\n", "<br>") }}
+          dangerouslySetInnerHTML={{ __html: p.title.replace(/\n/g, "<br>") }}
         />
         <div className="card-tags">
           {p.type.split("/").map((t) => (
